@@ -1,0 +1,71 @@
+package gestionMagasin;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Mohamed_SF
+ */
+public class Panier {
+
+    private ArrayList<Produit> produits;
+
+    public Panier() {
+        this.produits = new ArrayList<Produit>();
+    }
+
+    public ArrayList<Produit> getProduits() {
+        return this.produits;
+    }
+
+    public void ajouterProduit(Produit produit) {
+        this.produits.add(produit);
+        System.out.println("Produit ajoute au panier.");
+    }
+
+    public void supprimerProduit(Produit produit) {
+        if (this.produits.remove(produit)) {
+            System.out.println("Produit supprime du panier.");
+        } else {
+            System.out.println("Ce produit n'est pas dans le panier.");
+        }
+    }
+
+    public void afficherPanier() {
+        if (this.produits.size() == 0) {
+            System.out.println("Le panier est vide.");
+        } else {
+            for (int i = 0; i < this.produits.size(); i++) {
+                Produit produit = this.produits.get(i);
+
+                System.out.println(
+                        "Produit : " + produit.getNom()
+                        + " | Prix : " + produit.getPrix()
+                        + " euros");
+            }
+
+            System.out.println("Total : " + calculerTotal() + " euros");
+        }
+    }
+
+    public int calculerTotal() {
+        int total = 0;
+
+        for (int i = 0; i < this.produits.size(); i++) {
+            total = total + this.produits.get(i).getPrix();
+        }
+
+        return total;
+    }
+
+    /*
+    ArrayList<Produit> permet de conserver plusieurs produits.
+    add() ajoute un produit et remove() retire une occurrence.
+    size() donne le nombre de produits et get(i) recupere un produit.
+
+    Comme vu en cours, une boucle for permet de repeter une action.
+    Ici, elle parcourt les produits pour les afficher ou additionner leurs prix.
+    calculerTotal() retourne le resultat, alors que les methodes void
+    effectuent une action sans retourner de valeur.
+    */
+}

@@ -1,0 +1,48 @@
+package gestionMagasin;
+
+/**
+ *
+ * @author Mohamed_SF
+ */
+public class Magasin {
+
+    private Produit[] produits;
+    private int nbProduits;
+
+    public Magasin() {
+        this.produits = new Produit[100];
+        this.nbProduits = 0;
+    }
+
+    public void ajouterProduit(Produit produit) {
+        if (this.nbProduits < this.produits.length) {
+            this.produits[this.nbProduits] = produit;
+            this.nbProduits++;
+        } else {
+            System.out.println("Le magasin est plein.");
+        }
+    }
+
+    public void afficherProduitsDisponibles() {
+        if (this.nbProduits == 0) {
+            System.out.println("Aucun produit disponible.");
+        } else {
+            for (int i = 0; i < this.nbProduits; i++) {
+                if (this.produits[i].getQuantite() > 0) {
+                    this.produits[i].afficherDetails();
+                    System.out.println();
+                }
+            }
+        }
+    }
+
+    public Produit trouverProduitParNom(String nom) {
+        for (int i = 0; i < this.nbProduits; i++) {
+            if (this.produits[i].getNom().equals(nom)) {
+                return this.produits[i];
+            }
+        }
+
+        return null;
+    }
+}

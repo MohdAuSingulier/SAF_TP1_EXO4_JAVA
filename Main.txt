@@ -1,0 +1,118 @@
+package gestionMagasin;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Mohamed_SF
+ */
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner clavier = new Scanner(System.in);
+
+        Magasin magasin = new Magasin();
+        Panier panier = new Panier();
+
+        Produit produit1 = new Produit(1, "Ordinateur HP", 650, 10);
+        Produit produit2 = new Produit(2, "PlayStation 5", 500, 8);
+        Produit produit3 = new Produit(3, "Casque Auditif", 80, 15);
+
+        magasin.ajouterProduit(produit1);
+        magasin.ajouterProduit(produit2);
+        magasin.ajouterProduit(produit3);
+
+        System.out.println("Bienvenue dans le magasin !");
+
+        System.out.println("Votre nom :");
+        String nomClient = clavier.nextLine();
+
+        System.out.println("Votre email :");
+        String emailClient = clavier.nextLine();
+
+        Client client = new Client(1, nomClient, emailClient);
+
+        int choix = 0;
+        int numeroCommande = 1;
+
+        while (choix != 5) {
+
+            System.out.println("\n--- Menu Magasin ---");
+            System.out.println("1. Afficher les produits disponibles");
+            System.out.println("2. Ajouter un produit au panier");
+            System.out.println("3. Afficher le panier");
+            System.out.println("4. Passer la commande");
+            System.out.println("5. Quitter");
+            System.out.println("Votre choix :");
+
+            choix = clavier.nextInt();
+
+            // Lire le retour a la ligne restant apres nextInt()
+            clavier.nextLine();
+
+            switch (choix) {
+
+                case 1:
+                    magasin.afficherProduitsDisponibles();
+                    break;
+
+                case 2:
+                    System.out.println("Nom du produit a ajouter :");
+                    String nomProduit = clavier.nextLine();
+
+                    Produit produit = magasin.trouverProduitParNom(nomProduit);
+
+                    if (produit == null) {
+                        System.out.println("Produit introuvable.");
+                    } else if (produit.getQuantite() <= 0) {
+                        System.out.println("Produit indisponible.");
+                    } else {
+                        panier.ajouterProduit(produit);
+                    }
+                    break;
+
+                case 3:
+                    panier.afficherPanier();
+                    break;
+
+                case 4:
+                    if (panier.getProduits().size() == 0) {
+                        System.out.println("Le panier est vide.");
+                    } else {
+                        Commande commande = new Commande(
+                                numeroCommande, client, panier);
+
+                        commande.afficherDetailsCommande();
+
+                        numeroCommande++;
+                        panier = new Panier();
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Au revoir !");
+                    break;
+
+                default:
+                    System.out.println("Choix incorrect.");
+                    break;
+            }
+        }
+
+        clavier.close();
+    }
+
+    /*
+    En ce qui concerne le main ici, comme dans sur TP sur Personne, new permet de creer des objets.
+    Scanner permet de recuperer les saisies du client.
+
+    Comme vu en cours, while repete les instructions tant que
+    la condition est vraie. Le menu continue donc tant que le choix n'est pas 5.
+
+    switch execute les instructions correspondant au choix.
+    break permet de sortir du switch apres chaque cas.
+
+    Apres une commande, le numero augmente et un nouveau panier vide est cree.
+    */
+}

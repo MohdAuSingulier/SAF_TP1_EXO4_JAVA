@@ -1,0 +1,57 @@
+package gestionMagasin;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Mohamed_SF
+ */
+public class Commande {
+
+    private int idCommande;
+    private Client client;
+    private ArrayList<Produit> produitsCommandes;
+    private int total;
+
+    public Commande(int idCommande, Client client, Panier panier) {
+        this.idCommande = idCommande;
+        this.client = client;
+        this.produitsCommandes = new ArrayList<Produit>();
+
+        for (int i = 0; i < panier.getProduits().size(); i++) {
+            this.produitsCommandes.add(panier.getProduits().get(i));
+        }
+
+        this.total = panier.calculerTotal();
+    }
+
+    public void afficherDetailsCommande() {
+        System.out.println("--- Details de la commande ---");
+        System.out.println("Numero de commande : " + this.idCommande);
+
+        this.client.afficherDetails();
+
+        System.out.println("Produits commandes :");
+
+        for (int i = 0; i < this.produitsCommandes.size(); i++) {
+            Produit produit = this.produitsCommandes.get(i);
+
+            System.out.println(
+                    produit.getNom()
+                    + " : " + produit.getPrix()
+                    + " euros");
+        }
+
+        System.out.println("Total : " + this.total + " euros");
+    }
+
+    /*
+    Pour bien comprendre ce que nous faisons, une commande contient un client, des produits et un total.
+    Le constructeur recoit des objets Client et Panier en parametres.
+
+    Une nouvelle liste est creee pour les produits commandes.
+    La boucle for y ajoute les produits du panier.
+    Les deux listes sont distinctes, mais contiennent les memes objets Produit.
+    Le total est enregistre au moment de la creation de la commande.
+    */
+}
